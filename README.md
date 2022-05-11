@@ -1,1 +1,1 @@
-# game-accounts-manager
+# Game Accounts Manager
