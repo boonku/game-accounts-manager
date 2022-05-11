@@ -4,7 +4,7 @@ import config
 db_name = config.database['name']
 db_script = config.script['name']
 
-conn = sqlite3.connect(db_name)
+conn = sqlite3.connect('../' + db_name)
 cursor = conn.cursor()
 
 # create tables and inserts platforms into table
