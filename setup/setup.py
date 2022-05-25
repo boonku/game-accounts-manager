@@ -9,11 +9,10 @@ root_dir = config.app['root_dir']
 
 # run sql script if database doesnt exist
 if not os.path.exists(root_dir + db_name):
-    conn = sqlite3.connect(root_dir + db_name)
-    cursor = conn.cursor()
-
     # create tables and inserts platforms into table
-    with open(db_script) as sql_file:
+    with open(root_dir + db_script) as sql_file:
+        conn = sqlite3.connect(root_dir + db_name)
+        cursor = conn.cursor()
         sql_script = sql_file.read()
         cursor.executescript(sql_script)
         conn.commit()

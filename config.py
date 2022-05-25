@@ -5,7 +5,7 @@ database = {
 }
 
 script = {
-    'name': 'create_tables.sql'
+    'name': 'setup/create_tables.sql'
 }
 
 encryption = {
