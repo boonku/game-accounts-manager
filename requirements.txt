@@ -1,0 +1,2 @@
+cryptography==37.0.2
+Faker==13.12.0
