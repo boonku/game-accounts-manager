@@ -7,7 +7,9 @@ from model.Platform import Platform
 
 class Database:
     def __init__(self):
-        self.connection = sqlite3.connect(config.database['name'])
+        root_dir = config.app['root_dir']
+        db_name = config.database['name']
+        self.connection = sqlite3.connect(root_dir + db_name)
 
     def get_connection(self):
         return self.connection
@@ -18,7 +20,7 @@ class Database:
             INSERT INTO Accounts(Login, Password, Game, Platform, AdditionalInformation, AddedDate)
             VALUES(?, ?, ?, ?, ?, ?);
         '''
-        game = self.get_game(account.game.name)
+        game = self.get_game_from_name(account.game.name)
         platform_id = account.platform.id
         if not game:
             game_id = self.save_game(account.game)
@@ -35,7 +37,9 @@ class Database:
                 AccountId,
                 Login,
                 Password,
+                GameId,
                 GameName,
+                PlatformId,
                 platformName,
                 AdditionalInformation,
                 AddedDate
@@ -58,7 +62,9 @@ class Database:
                 AccountId,
                 Login,
                 Password,
+                GameId,
                 GameName,
+                PlatformId,
                 platformName,
                 AdditionalInformation,
                 AddedDate
@@ -73,14 +79,14 @@ class Database:
         return self.__map_row_to_acc(result.fetchone())
 
     def save_game(self, game):
-        sql = 'INSERT INTO Games(GameName) VALUES (?)'
+        sql = 'INSERT INTO Games(GameName) VALUES (?);'
         cursor = self.connection.cursor()
         cursor.execute(sql, (game.name,))
         self.connection.commit()
         return cursor.lastrowid
 
     def get_games(self):
-        sql = 'SELECT * FROM Games'
+        sql = 'SELECT * FROM Games;'
         cursor = self.connection.cursor()
         result = cursor.execute(sql)
         games = []
@@ -88,20 +94,20 @@ class Database:
             games.append(self.__map_row_to_game(game))
         return games
 
-    def get_game(self, game_id):
-        sql = 'SELECT * FROM Games WHERE GameId = ?'
+    def get_game_from_id(self, game_id):
+        sql = 'SELECT * FROM Games WHERE GameId = ?;'
         cursor = self.connection.cursor()
         row = cursor.execute(sql, (game_id,)).fetchone()
         return self.__map_row_to_game(row)
 
-    def get_game(self, game_name):
-        sql = 'SELECT * FROM Games WHERE GameName = ?'
+    def get_game_from_name(self, game_name):
+        sql = 'SELECT * FROM Games WHERE GameName = ?;'
         cursor = self.connection.cursor()
         row = cursor.execute(sql, (game_name, )).fetchone()
         return self.__map_row_to_game(row)
 
     def get_platforms(self):
-        sql = 'SELECT * FROM Platforms'
+        sql = 'SELECT * FROM Platforms;'
         cursor = self.connection.cursor()
         result = cursor.execute(sql)
         platforms = []
@@ -109,16 +115,22 @@ class Database:
             platforms.append(self.__map_row_to_platform(platform))
         return platforms
 
-    def get_platform(self, platform_id):
-        sql = 'SELECT * FROM Platforms WHERE PlatformId = ?'
+    def get_platform_from_id(self, platform_id):
+        sql = 'SELECT * FROM Platforms WHERE PlatformId = ?;'
         cursor = self.connection.cursor()
         row = cursor.execute(sql, (platform_id, )).fetchone()
         return self.__map_row_to_platform(row)
 
+    def get_platform_from_name(self, platform_name):
+        sql = 'SELECT * FROM Platforms WHERE PlatformName = ?;'
+        cursor = self.connection.cursor()
+        row = cursor.execute(sql, (platform_name,)).fetchone()
+        return self.__map_row_to_platform(row)
+
     def __map_row_to_acc(self, row):
-        if row:
-            return Account(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-        return None
+        game = Game(row[3], row[4])
+        platform = Platform(row[5], row[6])
+        return Account(row[0], row[1], row[2].decode('utf-8'), game, platform, row[7], row[8])
 
     def __map_row_to_game(self, row):
         if row:
