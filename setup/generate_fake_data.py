@@ -1,5 +1,7 @@
 from os.path import exists
 from faker import Faker
+import sys
+sys.path.append('.')
 from database.Database import Database
 from model.Account import Account
 from model.Game import Game
@@ -7,9 +9,10 @@ from random import choice
 import config
 
 if not exists(config.app['root_dir'] + config.database['name']):
-    print('no database found, generate it with setup script')
+    print('no database found')
     exit(1)
 
+NUMBER_OF_ACCOUNTS_TO_GENERATE = 100
 db = Database()
 platforms = db.get_platforms()
 
@@ -55,7 +58,7 @@ games = [
 
 # create random information for accounts
 accounts = []
-for i in range(100):
+for i in range(NUMBER_OF_ACCOUNTS_TO_GENERATE):
     accounts.append(
         (fake.ascii_free_email(), fake.text(max_nb_chars=10), Game(0, choice(games)),
          choice(platforms), fake.text(max_nb_chars=20))
@@ -66,3 +69,5 @@ for acc in accounts:
     account = Account.create_account(0, *acc)
     print(f'Inserting: {account}')
     db.save_account(account)
+
+db.close()

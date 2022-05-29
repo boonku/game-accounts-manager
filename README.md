@@ -6,12 +6,10 @@ A simple application allowing user to store credentials to different accounts wi
 pip install -r requirements.py
 ```
 
-## Setup
-```
-py setup/setup.py
-```
-You can run `setup/generate_fake_data.py` to generate some random accounts.
 ## Running the app
 ```
 py main.py
 ```
+Database and encryption key will be generated on application start if not present.
+
+You can run `setup/generate_fake_data.py` to generate some random accounts.

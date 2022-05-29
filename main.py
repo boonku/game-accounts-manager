@@ -1,6 +1,6 @@
 import tkinter as tk
 import config
-
+from setup import setup
 from view.MainView import MainView
 from os.path import exists
 
@@ -22,14 +22,12 @@ def main():
 
 def check_for_db():
     if not exists(config.app['root_dir'] + config.database['name']):
-        print('no database found, generate it with setup script')
-        exit(1)
+        setup.create_db()
 
 
 def check_for_secret():
     if not exists(config.app['root_dir'] + 'secret.key'):
-        print('no key found, generate it with setup script')
-        exit(2)
+        setup.create_key()
 
 
 if __name__ == '__main__':
