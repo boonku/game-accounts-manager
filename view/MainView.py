@@ -2,6 +2,7 @@ from controller.AccountController import AccountController
 from view.AccountTableView import AccountTableView
 from view.AccountInfoView import AccountInfoView
 import tkinter as tk
+from view.AddAccountView import AddAccountView
 
 
 class MainView:
@@ -20,8 +21,8 @@ class MainView:
         self.controller.accounts_table_view = self.left_panel
         self.controller.account_info_view = self.right_panel
 
-        self.left_panel.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
-        self.right_panel.pack(fill=tk.BOTH, side=tk.RIGHT, expand=1)
+        self.left_panel.pack(fill=tk.BOTH, side=tk.LEFT, expand=1, padx=10, pady=10)
+        self.right_panel.pack(fill=tk.BOTH, side=tk.RIGHT, expand=1, padx=10, pady=10)
 
         # setup menubar
         self.menubar = tk.Menu(self.container)
@@ -35,7 +36,7 @@ class MainView:
         self.container.config(menu=self.menubar)
 
     def add_account(self):
-        print('adding new account...')
+        AddAccountView(self.container, self.controller)
 
     def refresh_accounts(self):
         self.left_panel.refresh_table()

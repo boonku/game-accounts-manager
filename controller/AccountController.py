@@ -1,5 +1,7 @@
 from database.Database import Database
 from encryption import encryption
+from model.Account import Account
+from model.Game import Game
 from view import AccountTableView, AccountInfoView
 
 
@@ -15,6 +17,19 @@ class AccountController:
     def get_account(self, account_id):
         return self.db.get_account(account_id)
 
+    def add_account(self, login, password, game_name, platform_name, additional_information):
+        platform = self.db.get_platform_from_name(platform_name)
+        if not platform:
+            return False
+        game = Game(0, game_name)
+        account = Account.create_account(0, login, password, game, platform, additional_information)
+        self.db.save_account(account)
+        self.clear()
+        return True
+
+    def get_platforms(self):
+        return self.db.get_platforms()
+
     def decode_password(self, account):
         decoded_password = encryption.decrypt_message(account.password.encode())
         return decoded_password
@@ -22,3 +37,8 @@ class AccountController:
     def set_account_info(self, account_id):
         account = self.get_account(account_id)
         self.account_info_view.set_account_info(account)
+
+    def clear(self):
+        self.accounts_table_view.clear_all()
+        self.accounts_table_view.insert_all()
+        self.account_info_view.clear_all()

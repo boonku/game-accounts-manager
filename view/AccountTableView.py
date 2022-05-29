@@ -21,7 +21,7 @@ class AccountTableView(ttk.Frame):
             self.accounts_list_table.heading(col, text=col_name)
         # don't show id's in the table, but store them for database searches
         self.accounts_list_table['displaycolumns'] = ('game', 'platform')
-        self.__insert_all()
+        self.insert_all()
         # add scrollbar to table
         scrollbar = ttk.Scrollbar(self, orient='vertical', command=self.accounts_list_table.yview)
         scrollbar.pack(side='right', fill='y')
@@ -29,8 +29,7 @@ class AccountTableView(ttk.Frame):
         self.accounts_list_table.pack(fill=tk.BOTH, side=tk.LEFT, expand=1)
 
     def refresh_table(self):
-        self.__clear_all()
-        self.__insert_all()
+        self.controller.clear()
 
     def account_select(self, event):
         for selected_account in self.accounts_list_table.selection():
@@ -38,11 +37,11 @@ class AccountTableView(ttk.Frame):
             record = account['values']
             self.controller.set_account_info(record[0])
 
-    def __clear_all(self):
+    def clear_all(self):
         for item in self.accounts_list_table.get_children():
             self.accounts_list_table.delete(item)
 
-    def __insert_all(self):
+    def insert_all(self):
         for account in self.controller.get_accounts():
             self.accounts_list_table.insert('', tk.END,
                                             values=(account.id, account.game.name, account.platform.name))

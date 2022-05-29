@@ -19,5 +19,7 @@ app = {
     'max_size': (1920, 1080),
     'min_size': (600, 500),
     'window_icon': 'resources/app-icon.ico',
-    'root_dir': os.path.dirname(os.path.abspath(__file__)) + '/'
+    'root_dir': os.path.dirname(os.path.abspath(__file__)) + '/',
+    'font_text': (None, 13, ),
+    'font_label': (None, 15, 'bold')
 }
