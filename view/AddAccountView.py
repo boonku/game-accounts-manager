@@ -18,12 +18,19 @@ class AddAccountView(tk.Toplevel):
         self.__setup()
 
     def __setup(self):
+        self.__setup_window()
+        self.__setup_widgets()
+
+    def __setup_window(self):
         self.title('Add New Account')
         self.transient(self.container)
         self.grab_set()
         self.geometry('350x500')
+        self.iconbitmap(config.app['add_account_icon'])
         self.resizable(False, False)
         self.configure(padx=20, pady=20)
+
+    def __setup_widgets(self):
         FONTSIZE_TEXT = config.app['font_text']
         FONTSIZE_LABEL = config.app['font_label']
         tk.Label(self, text='Login', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
