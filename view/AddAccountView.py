@@ -13,6 +13,7 @@ class AddAccountView(tk.Toplevel):
         self.game_field = None
         self.platform_field = None
         self.additional_info_field = None
+        self.error_label = None
         self.submit_button = None
         self.cancel_button = None
         self.__setup()
@@ -54,14 +55,18 @@ class AddAccountView(tk.Toplevel):
         self.cancel_button = tk.Button(self, text='Cancel', command=self.destroy)
         self.cancel_button.pack(side=tk.BOTTOM, fill=tk.BOTH)
         self.submit_button = tk.Button(self, text='Add Account', command=self.submit_account)
-        self.submit_button.pack(side=tk.BOTTOM, fill=tk.BOTH)
+        self.submit_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=10)
+        self.error_label = tk.Label(self, text='', font=FONTSIZE_TEXT, fg='#ff0000', justify=tk.CENTER, wraplength=250)
+        self.error_label.pack(side=tk.BOTTOM, fill=tk.BOTH)
 
     def submit_account(self):
-        login = self.login_field.get()
-        password = self.password_field.get()
-        game = self.game_field.get()
+        login = self.login_field.get().strip()
+        password = self.password_field.get().strip()
+        game = self.game_field.get().strip()
         platform = self.platform_field_value.get()
-        additional_information = self.additional_info_field.get(1.0, tk.END)
+        additional_information = self.additional_info_field.get(1.0, tk.END).strip()
         success = self.controller.add_account(login, password, game, platform, additional_information)
         if success:
             self.destroy()
+        else:
+            self.error_label.config(text='Only additional information can be left blank!')

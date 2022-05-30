@@ -22,6 +22,8 @@ class AccountController:
         if not platform:
             return False
         game = Game(0, game_name)
+        if login == '' or password == '' or game_name == '':
+            return False
         account = Account.create_account(0, login, password, game, platform, additional_information)
         self.db.save_account(account)
         self.clear()
