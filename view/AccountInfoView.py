@@ -15,7 +15,7 @@ class AccountInfoView(ttk.Frame):
         self.games_name_text_field = None
         self.platform_text_field = None
         self.additional_text_field = None
-        self.added_date_text_field = None
+        self.date_added_text_field = None
         self.delete_button = None
         self.copy_login_button = None
         self.copy_password_button = None
@@ -31,7 +31,7 @@ class AccountInfoView(ttk.Frame):
         self.games_name_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.platform_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.additional_text_field = tk.Text(self, state='disabled', height=4, font=FONTSIZE_TEXT)
-        self.added_date_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
+        self.date_added_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.delete_button = tk.Button(self, text='Delete Account', command=self.delete_account, font=FONTSIZE_LABEL)
         self.copy_login_button = tk.Button(self, text='Copy Login', command=self.copy_login, font=FONTSIZE_LABEL)
         self.copy_password_button = tk.Button(self, text='Copy Password',
@@ -48,8 +48,8 @@ class AccountInfoView(ttk.Frame):
         self.platform_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
         tk.Label(self, text='Additional Information', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
         self.additional_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
-        tk.Label(self, text='Added Date', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
-        self.added_date_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
+        tk.Label(self, text='Date Added', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
+        self.date_added_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
         self.delete_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
         self.copy_password_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
         self.copy_login_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
@@ -61,7 +61,7 @@ class AccountInfoView(ttk.Frame):
         self.__insert_text_to_text_field(self.games_name_text_field, account.game.name)
         self.__insert_text_to_text_field(self.platform_text_field, account.platform.name)
         self.__insert_text_to_text_field(self.additional_text_field, account.additional_information)
-        self.__insert_text_to_text_field(self.added_date_text_field, account.added_date)
+        self.__insert_text_to_text_field(self.date_added_text_field, account.date_added)
 
     def __insert_text_to_text_field(self, text_field: tk.Text, text):
         text_field.configure(state='normal')
@@ -77,7 +77,7 @@ class AccountInfoView(ttk.Frame):
         self.__insert_text_to_text_field(self.games_name_text_field, '')
         self.__insert_text_to_text_field(self.platform_text_field, '')
         self.__insert_text_to_text_field(self.additional_text_field, '')
-        self.__insert_text_to_text_field(self.added_date_text_field, '')
+        self.__insert_text_to_text_field(self.date_added_text_field, '')
 
     def delete_account(self):
         if self.viewed_account_id:

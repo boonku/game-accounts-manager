@@ -17,7 +17,7 @@ class Database:
     def save_account(self, account):
         cursor = self.connection.cursor()
         sql_acc = '''
-            INSERT INTO Accounts(Login, Password, Game, Platform, AdditionalInformation, AddedDate)
+            INSERT INTO Accounts(Login, Password, Game, Platform, AdditionalInformation, DateAdded)
             VALUES(?, ?, ?, ?, ?, ?);
         '''
         game = self.get_game_from_name(account.game.name)
@@ -27,7 +27,7 @@ class Database:
         else:
             game_id = game.id
         self.connection.execute(sql_acc, (account.login, account.password, game_id, platform_id,
-                                          account.additional_information, account.added_date))
+                                          account.additional_information, account.date_added))
         self.connection.commit()
         return cursor.lastrowid
 
@@ -42,7 +42,7 @@ class Database:
                 PlatformId,
                 platformName,
                 AdditionalInformation,
-                AddedDate
+                DateAdded
             FROM
                 Accounts
             INNER JOIN Games on Accounts.Game = Games.GameId
@@ -67,7 +67,7 @@ class Database:
                 PlatformId,
                 platformName,
                 AdditionalInformation,
-                AddedDate
+                DateAdded
             FROM
                 Accounts
             INNER JOIN Games on Accounts.Game = Games.GameId

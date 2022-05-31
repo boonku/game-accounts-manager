@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
     Game INTEGER NOT NULL,
     Platform INTEGER NOT NULL,
     AdditionalInformation TEXT,
-    AddedDate DATE,
+    DateAdded DATE,
     FOREIGN KEY(Game) REFERENCES Games(GameId),
     FOREIGN KEY(Platform) REFERENCES Platforms(PlatformId)
 );
