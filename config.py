@@ -17,7 +17,7 @@ app = {
     # application's window width, height
     'size': (1000, 800),
     'max_size': (1920, 1080),
-    'min_size': (600, 500),
+    'min_size': (1000, 800),
     'window_icon': 'resources/app-icon.ico',
     'add_account_icon': 'resources/add-account-icon.ico',
     'root_dir': os.path.dirname(os.path.abspath(__file__)) + '/',
