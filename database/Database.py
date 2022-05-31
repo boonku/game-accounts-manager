@@ -26,8 +26,8 @@ class Database:
             game_id = self.save_game(account.game)
         else:
             game_id = game.id
-        self.connection.execute(sql_acc, (account.login, account.password, game_id, platform_id,
-                                          account.additional_information, account.date_added))
+        cursor.execute(sql_acc, (account.login, account.password, game_id, platform_id,
+                                 account.additional_information, account.date_added))
         self.connection.commit()
         return cursor.lastrowid
 
@@ -127,7 +127,7 @@ class Database:
     def get_game_from_name(self, game_name):
         sql = 'SELECT * FROM Games WHERE GameName = ?;'
         cursor = self.connection.cursor()
-        row = cursor.execute(sql, (game_name, )).fetchone()
+        row = cursor.execute(sql, (game_name,)).fetchone()
         return self.__map_row_to_game(row)
 
     def get_platforms(self):
@@ -142,7 +142,7 @@ class Database:
     def get_platform_from_id(self, platform_id):
         sql = 'SELECT * FROM Platforms WHERE PlatformId = ?;'
         cursor = self.connection.cursor()
-        row = cursor.execute(sql, (platform_id, )).fetchone()
+        row = cursor.execute(sql, (platform_id,)).fetchone()
         return self.__map_row_to_platform(row)
 
     def get_platform_from_name(self, platform_name):

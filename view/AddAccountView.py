@@ -65,8 +65,8 @@ class AddAccountView(tk.Toplevel):
         game = self.game_field.get().strip()
         platform = self.platform_field_value.get()
         additional_information = self.additional_info_field.get(1.0, tk.END).strip()
-        success = self.controller.add_account(login, password, game, platform, additional_information)
-        if success:
+        new_account_id = self.controller.add_account(login, password, game, platform, additional_information)
+        if new_account_id != -1:
             self.destroy()
         else:
             self.error_label.config(text='Only additional information can be left blank!')

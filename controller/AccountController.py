@@ -3,6 +3,7 @@ from encryption import encryption
 from model.Account import Account
 from model.Game import Game
 from view import AccountTableView, AccountInfoView
+from datetime import date
 
 
 class AccountController:
@@ -17,17 +18,17 @@ class AccountController:
     def get_account(self, account_id):
         return self.db.get_account(account_id)
 
-    def add_account(self, login, password, game_name, platform_name, additional_information):
+    def add_account(self, login, password, game_name, platform_name, additional_information, date_added=date.today()):
         platform = self.db.get_platform_from_name(platform_name)
         if not platform:
-            return False
+            return -1
         game = Game(0, game_name)
         if login == '' or password == '' or game_name == '':
-            return False
-        account = Account.create_account(0, login, password, game, platform, additional_information)
-        self.db.save_account(account)
+            return -1
+        account = Account.create_account(0, login, password, game, platform, additional_information, date_added)
+        id = self.db.save_account(account)
         self.clear()
-        return True
+        return id
 
     def delete_account(self, account_id):
         self.db.delete_account(account_id)
