@@ -90,6 +90,12 @@ class Database:
         cursor.execute(sql_delete_account, (account_id,))
         self.connection.commit()
 
+    def edit_additional_information(self, account_id, additional_information):
+        sql = 'UPDATE Accounts SET AdditionalInformation=? WHERE AccountId=?'
+        cursor = self.connection.cursor()
+        cursor.execute(sql, (additional_information, account_id))
+        self.connection.commit()
+
     def save_game(self, game):
         sql = 'INSERT INTO Games(GameName) VALUES (?);'
         cursor = self.connection.cursor()

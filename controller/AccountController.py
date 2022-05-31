@@ -50,6 +50,10 @@ class AccountController:
         account = self.get_account(account_id)
         self.account_info_view.set_account_info(account)
 
+    def edit_accounts_add_info(self, account_id, additional_information):
+        self.db.edit_additional_information(account_id, additional_information)
+        self.set_account_info(account_id)
+
     def clear(self):
         self.accounts_table_view.clear_all()
         self.accounts_table_view.insert_all()
