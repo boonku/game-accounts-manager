@@ -29,6 +29,10 @@ class AccountController:
         self.clear()
         return True
 
+    def delete_account(self, account_id):
+        self.db.delete_account(account_id)
+        self.clear()
+
     def get_platforms(self):
         return self.db.get_platforms()
 

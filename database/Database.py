@@ -78,6 +78,18 @@ class Database:
         result = cursor.execute(sql, (account_id,))
         return self.__map_row_to_acc(result.fetchone())
 
+    def delete_account(self, account_id):
+        sql_delete_account = 'DELETE FROM Accounts WHERE AccountId=?;'
+        account = self.get_account(account_id)
+        sql_get_game = 'SELECT COUNT(*) FROM Accounts WHERE Game=?'
+        cursor = self.connection.cursor()
+        number_of_accounts_with_game = cursor.execute(sql_get_game, (account.game.id,)).fetchone()[0]
+        # delete game from database if there won't be any account using it
+        if number_of_accounts_with_game == 1:
+            self.delete_game(account.game.id)
+        cursor.execute(sql_delete_account, (account_id,))
+        self.connection.commit()
+
     def save_game(self, game):
         sql = 'INSERT INTO Games(GameName) VALUES (?);'
         cursor = self.connection.cursor()
@@ -93,6 +105,12 @@ class Database:
         for game in result:
             games.append(self.__map_row_to_game(game))
         return games
+
+    def delete_game(self, game_id):
+        sql = 'DELETE FROM Games WHERE GameId=?'
+        cursor = self.connection.cursor()
+        cursor.execute(sql, (game_id,))
+        self.connection.commit()
 
     def get_game_from_id(self, game_id):
         sql = 'SELECT * FROM Games WHERE GameId = ?;'
