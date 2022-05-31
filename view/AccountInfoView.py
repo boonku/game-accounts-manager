@@ -17,6 +17,8 @@ class AccountInfoView(ttk.Frame):
         self.additional_text_field = None
         self.added_date_text_field = None
         self.delete_button = None
+        self.copy_login_button = None
+        self.copy_password_button = None
         self.__setup()
 
     def __setup(self):
@@ -26,11 +28,14 @@ class AccountInfoView(ttk.Frame):
         account_lbl = tk.Label(self, text='Account Info', font=(None, 30, 'bold'))
         self.login_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.password_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
-        self.games_name_text_field = tk.Text(self, state='disabled', height=2, font=FONTSIZE_TEXT)
+        self.games_name_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.platform_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.additional_text_field = tk.Text(self, state='disabled', height=4, font=FONTSIZE_TEXT)
         self.added_date_text_field = tk.Text(self, state='disabled', height=1, font=FONTSIZE_TEXT)
         self.delete_button = tk.Button(self, text='Delete Account', command=self.delete_account, font=FONTSIZE_LABEL)
+        self.copy_login_button = tk.Button(self, text='Copy Login', command=self.copy_login, font=FONTSIZE_LABEL)
+        self.copy_password_button = tk.Button(self, text='Copy Password',
+                                              command=self.copy_password, font=FONTSIZE_LABEL)
 
         account_lbl.pack(side=tk.TOP, fill=tk.BOTH)
         tk.Label(self, text='Login', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
@@ -45,7 +50,9 @@ class AccountInfoView(ttk.Frame):
         self.additional_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
         tk.Label(self, text='Added Date', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
         self.added_date_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
-        self.delete_button.pack(side=tk.BOTTOM, fill=tk.BOTH)
+        self.delete_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
+        self.copy_password_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
+        self.copy_login_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
 
     def set_account_info(self, account):
         self.viewed_account_id = account.id
@@ -64,6 +71,7 @@ class AccountInfoView(ttk.Frame):
         text_field.configure(state='disabled')
 
     def clear_all(self):
+        self.viewed_account_id = None
         self.__insert_text_to_text_field(self.login_text_field, '')
         self.__insert_text_to_text_field(self.password_text_field, '')
         self.__insert_text_to_text_field(self.games_name_text_field, '')
@@ -76,3 +84,13 @@ class AccountInfoView(ttk.Frame):
             answer = askyesno(title='Delete confirmation', message='Are you sure you want to delete this account?')
             if answer:
                 self.controller.delete_account(self.viewed_account_id)
+
+    def copy_login(self):
+        if self.viewed_account_id:
+            self.clipboard_clear()
+            self.clipboard_append(self.login_text_field.get(1.0, tk.END))
+
+    def copy_password(self):
+        if self.viewed_account_id:
+            self.clipboard_clear()
+            self.clipboard_append(self.controller.get_plain_password(self.viewed_account_id))

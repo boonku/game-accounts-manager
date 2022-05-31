@@ -40,6 +40,12 @@ class AccountController:
         decoded_password = encryption.decrypt_message(account.password.encode())
         return decoded_password
 
+    def get_plain_password(self, account_id):
+        account = self.get_account(account_id)
+        if account:
+            return self.decode_password(account)
+        return ''
+
     def set_account_info(self, account_id):
         account = self.get_account(account_id)
         self.account_info_view.set_account_info(account)
