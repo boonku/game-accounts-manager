@@ -1,8 +1,12 @@
-from controller.AccountController import AccountController
-from view.AccountTableView import AccountTableView
-from view.AccountInfoView import AccountInfoView
 import tkinter as tk
+from tkinter.messagebox import showerror
+
+from controller.AccountController import AccountController
+from view.AccountInfoView import AccountInfoView
+from view.AccountTableView import AccountTableView
 from view.AddAccountView import AddAccountView
+from view.ExportAccountView import ExportAccountView
+from view.ImportAccountView import ImportAccountExportImport
 
 
 class MainView:
@@ -30,6 +34,9 @@ class MainView:
         account_menu.add_command(label='Add Account', command=self.add_account)
         account_menu.add_command(label='Refresh', command=self.refresh_accounts)
         account_menu.add_separator()
+        account_menu.add_command(label='Export Account', command=self.export_account)
+        account_menu.add_command(label='Import Account', command=self.import_account)
+        account_menu.add_separator()
         account_menu.add_command(label='Exit', command=self.container.quit)
         self.menubar.add_cascade(label='Accounts', menu=account_menu)
 
@@ -40,3 +47,13 @@ class MainView:
 
     def refresh_accounts(self):
         self.left_panel.refresh_table()
+
+    def export_account(self):
+        viewed_account_id = self.right_panel.viewed_account_id
+        if viewed_account_id:
+            ExportAccountView(self.container, self.controller, viewed_account_id)
+        else:
+            showerror(title='Error', message='No account selected to export')
+
+    def import_account(self):
+        ImportAccountExportImport(self.container, self.controller)
