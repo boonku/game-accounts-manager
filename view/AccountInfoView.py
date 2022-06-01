@@ -102,10 +102,10 @@ class AccountInfoView(ttk.Frame):
     def edit_account(self):
         if self.viewed_account_id:
             self.additional_info_text_field.config(state='normal')
-            self.edit_button.config(text='Confirm', command=self.edit_additional_info)
+            self.edit_button.config(text='Confirm', command=self.edit_additional_info, fg='#00ff00')
 
     def edit_additional_info(self):
         additional_information = self.additional_info_text_field.get(1.0, tk.END).strip()
         self.controller.edit_accounts_add_info(self.viewed_account_id, additional_information)
-        self.edit_button.config(text='Edit Additional Information', command=self.edit_account)
+        self.edit_button.config(text='Edit Additional Information', command=self.edit_account, fg='#000000')
         self.additional_info_text_field.config(state='disabled')
