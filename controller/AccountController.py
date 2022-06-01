@@ -59,6 +59,9 @@ class AccountController:
         self.db.edit_additional_information(account_id, additional_information)
         self.set_account_info(account_id)
 
+    def cancel_edit(self, account_id):
+        self.set_account_info(account_id)
+
     def clear(self):
         self.accounts_table_view.clear_all()
         self.accounts_table_view.insert_all()

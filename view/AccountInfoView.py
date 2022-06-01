@@ -20,6 +20,7 @@ class AccountInfoView(ttk.Frame):
         self.copy_login_button = None
         self.copy_password_button = None
         self.edit_button = None
+        self.cancel_button = None
         self.__setup()
 
     def __setup(self):
@@ -39,7 +40,7 @@ class AccountInfoView(ttk.Frame):
                                               command=self.copy_password, font=FONTSIZE_LABEL)
         self.edit_button = tk.Button(self, text='Edit Additional Information',
                                      command=self.edit_account, font=FONTSIZE_LABEL)
-
+        self.cancel_button = tk.Button(self, text='Cancel', command=self.cancel_edit, font=FONTSIZE_LABEL, fg='#ff0000')
         account_lbl.pack(side=tk.TOP, fill=tk.BOTH)
         tk.Label(self, text='Login', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
         self.login_text_field.pack(side=tk.TOP, fill=tk.BOTH, pady=10)
@@ -103,9 +104,19 @@ class AccountInfoView(ttk.Frame):
         if self.viewed_account_id:
             self.additional_info_text_field.config(state='normal')
             self.edit_button.config(text='Confirm', command=self.edit_additional_info, fg='#00ff00')
+            self.copy_login_button.pack_forget()
+            self.copy_password_button.pack_forget()
+            self.cancel_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
 
     def edit_additional_info(self):
         additional_information = self.additional_info_text_field.get(1.0, tk.END).strip()
         self.controller.edit_accounts_add_info(self.viewed_account_id, additional_information)
+        self.cancel_edit()
+
+    def cancel_edit(self):
+        self.cancel_button.pack_forget()
         self.edit_button.config(text='Edit Additional Information', command=self.edit_account, fg='#000000')
+        self.controller.cancel_edit(self.viewed_account_id)
         self.additional_info_text_field.config(state='disabled')
+        self.copy_password_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
+        self.copy_login_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
