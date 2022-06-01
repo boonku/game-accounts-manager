@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.messagebox import showerror
 
+import config
 from controller.AccountController import AccountController
 from view.AccountInfoView import AccountInfoView
 from view.AccountTableView import AccountTableView
@@ -29,15 +30,16 @@ class MainView:
         self.right_panel.pack(fill=tk.BOTH, side=tk.RIGHT, expand=1, padx=10, pady=10)
 
         # setup menubar
+        fontsize = config.app['font_text']
         self.menubar = tk.Menu(self.container)
         account_menu = tk.Menu(self.menubar, tearoff=0)
-        account_menu.add_command(label='Add Account', command=self.add_account)
-        account_menu.add_command(label='Refresh', command=self.refresh_accounts)
+        account_menu.add_command(label='Add Account', command=self.add_account, font=fontsize)
+        account_menu.add_command(label='Refresh', command=self.refresh_accounts, font=fontsize)
         account_menu.add_separator()
-        account_menu.add_command(label='Export Account', command=self.export_account)
-        account_menu.add_command(label='Import Account', command=self.import_account)
+        account_menu.add_command(label='Export Account', command=self.export_account, font=fontsize)
+        account_menu.add_command(label='Import Account', command=self.import_account, font=fontsize)
         account_menu.add_separator()
-        account_menu.add_command(label='Exit', command=self.container.quit)
+        account_menu.add_command(label='Exit', command=self.container.quit, font=fontsize)
         self.menubar.add_cascade(label='Accounts', menu=account_menu)
 
         self.container.config(menu=self.menubar)
