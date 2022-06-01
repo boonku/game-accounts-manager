@@ -36,9 +36,9 @@ class ExportImportTemplate(tk.Toplevel):
         tk.Label(self, text='Code', font=FONTSIZE_LABEL).pack(side=tk.TOP, fill=tk.BOTH)
         self.code_field.pack(side=tk.TOP, fill=tk.BOTH)
         self.cancel_button = tk.Button(self, text='Cancel', font=FONTSIZE_LABEL, command=self.cancel)
-        self.cancel_button.pack(side=tk.BOTTOM, fill=tk.BOTH)
+        self.cancel_button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
         self.button = tk.Button(self, text='Placeholder', font=FONTSIZE_LABEL)
-        self.button.pack(side=tk.BOTTOM, fill=tk.BOTH)
+        self.button.pack(side=tk.BOTTOM, fill=tk.BOTH, pady=5)
 
     def cancel(self):
         self.destroy()
